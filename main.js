@@ -4,7 +4,7 @@ const app = Vue.createApp({
             cart:0,
             product: 'Socks',
             brand: 'Vue Mastery',
-            onSale: false,
+            onSale: true,
             selectedVariant: 0,
             details: ['50% cotton', '30% wool', '20% polyester'],
             variants: [
