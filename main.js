@@ -24,10 +24,11 @@ const app = Vue.createApp({
     },
     computed: {
         title() {
+            return this.brand + '' + this.product
+        },
+        sale() {
             if (this.onSale) {
                 return this.brand + '' + this.product + ' is on sale'
-            } else {
-                return this.brand + '' + this.product
             }
         },
         image() {
