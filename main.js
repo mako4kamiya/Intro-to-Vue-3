@@ -29,6 +29,8 @@ const app = Vue.createApp({
         sale() {
             if (this.onSale) {
                 return this.brand + '' + this.product + ' is on sale'
+            } else {
+                return ''
             }
         },
         image() {
