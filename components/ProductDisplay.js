@@ -3,6 +3,10 @@ app.component('product-display', {
     premium: {
       type: Boolean,
       required: true
+    },
+    cart: {
+      type: Array,
+      required: true
     }
   },
   template: 
@@ -34,11 +38,20 @@ app.component('product-display', {
         
         <button 
           class="button" 
-          :class="{ disabledButton: !inStock }" 
-          :disabled="!inStock" 
+          :class="{ disabledButton: !inStock }"
+          :disabled="!inStock"
           v-on:click="addToCart">
           Add to Cart
         </button>
+
+        <button 
+          class="button" 
+          :class="{ disabledButton: !inCart }"
+          :disabled="!inCart"
+          v-on:click="removeItem">
+          Remove Item
+        </button>
+
       </div>
     </div>
   </div>`,
@@ -49,14 +62,19 @@ app.component('product-display', {
         selectedVariant: 0,
         details: ['50% cotton', '30% wool', '20% polyester'],
         variants: [
-          { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50 },
+          { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 5 },
           { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 },
         ]
     }
   },
   methods: {
       addToCart() {
-          this.cart += 1
+          this.$emit('add-to-cart', this.variants[this.selectedVariant].id),
+          this.variants[this.selectedVariant].quantity -= 1
+      },
+      removeItem (){
+        this.$emit('remove-item', this.variants[this.selectedVariant].id)
+        this.variants[this.selectedVariant].quantity += 1
       },
       updateVariant(index) {
           this.selectedVariant = index
@@ -71,6 +89,9 @@ app.component('product-display', {
       },
       inStock() {
           return this.variants[this.selectedVariant].quantity
+      },
+      inCart() {
+        return this.cart.length
       },
       shipping() {
         if (this.premium) {
